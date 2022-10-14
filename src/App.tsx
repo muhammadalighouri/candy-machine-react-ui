@@ -2,7 +2,7 @@ import "./App.css";
 import { useMemo } from "react";
 import * as anchor from "@project-serum/anchor";
 import Home from "./Home";
-
+import "./scss/reset.css";
 import { clusterApiUrl } from "@solana/web3.js";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import {
@@ -12,7 +12,6 @@ import {
   getSolletWallet,
   getSolletExtensionWallet,
 } from "@solana/wallet-adapter-wallets";
-
 import {
   ConnectionProvider,
   WalletProvider,
@@ -20,6 +19,9 @@ import {
 import { WalletDialogProvider } from "@solana/wallet-adapter-material-ui";
 
 import { ThemeProvider, createTheme } from "@material-ui/core";
+import { BrowserRouter, Route, Routes  } from "react-router-dom";
+import Hello from "./Hello";
+import Main from "./Main";
 
 const theme = createTheme({
   palette: {
@@ -69,13 +71,19 @@ const App = () => {
       <ConnectionProvider endpoint={endpoint}>
         <WalletProvider wallets={wallets} autoConnect>
           <WalletDialogProvider>
-            <Home
+            <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Main/>}/>
+              <Route path="/Mint" element={  <Home
               candyMachineId={candyMachineId}
               connection={connection}
               startDate={startDateSeed}
               txTimeout={txTimeoutInMilliseconds}
               rpcHost={rpcHost}
-            />
+            />}/>
+            </Routes>
+            </BrowserRouter>
+          
           </WalletDialogProvider>
         </WalletProvider>
       </ConnectionProvider>

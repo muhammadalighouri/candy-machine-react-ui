@@ -20,6 +20,7 @@ import { Header } from "./Header";
 import { MintButton } from "./MintButton";
 import { GatewayProvider } from "@civic/solana-gateway-react";
 import { CrossmintPayButton } from "@crossmint/client-sdk-react-ui";
+import Navigation from "./Navigation";
 
 const ConnectButton = styled(WalletDialogButton)`
   width: 100%;
@@ -163,6 +164,8 @@ const Home = (props: HomeProps) => {
   ]);
 
   return (
+   <>
+    <Navigation/>
     <Container style={{ marginTop: 100 }}>
       <Container maxWidth="xs" style={{ position: "relative" }}>
         <Paper
@@ -172,6 +175,7 @@ const Home = (props: HomeProps) => {
             borderRadius: 6,
           }}
         >
+          <img src="/images/gif.gif" style={{width:'100%', borderRadius:'4px'}} alt="" />
           {!wallet.connected ? (
             <ConnectButton>Connect Wallet</ConnectButton>
           ) : (
@@ -235,6 +239,7 @@ const Home = (props: HomeProps) => {
         </Alert>
       </Snackbar>
     </Container>
+   </>
   );
 };
 
