@@ -83,7 +83,6 @@ const App = () => {
             />}/>
             </Routes>
             </BrowserRouter>
-          
           </WalletDialogProvider>
         </WalletProvider>
       </ConnectionProvider>

@@ -164,82 +164,92 @@ const Home = (props: HomeProps) => {
   ]);
 
   return (
-   <>
-    <Navigation/>
-    <Container style={{ marginTop: 100 }}>
-      <Container maxWidth="xs" style={{ position: "relative" }}>
-        <Paper
-          style={{
-            padding: 24,
-            backgroundColor: "#151A1F",
-            borderRadius: 6,
-          }}
-        >
-          <img src="/images/gif.gif" style={{width:'100%', borderRadius:'4px'}} alt="" />
-          {!wallet.connected ? (
-            <ConnectButton>Connect Wallet</ConnectButton>
-          ) : (
-            <>
-              <Header candyMachine={candyMachine} />
-              <MintContainer>
-                {candyMachine?.state.isActive &&
-                candyMachine?.state.gatekeeper &&
-                wallet.publicKey &&
-                wallet.signTransaction ? (
-                  <GatewayProvider
-                    wallet={{
-                      publicKey:
-                        wallet.publicKey ||
-                        new PublicKey(CANDY_MACHINE_PROGRAM),
-                      //@ts-ignore
-                      signTransaction: wallet.signTransaction,
-                    }}
-                    gatekeeperNetwork={
-                      candyMachine?.state?.gatekeeper?.gatekeeperNetwork
-                    }
-                    clusterUrl={rpcUrl}
-                    options={{ autoShowModal: false }}
-                  >
+    <>
+      <Navigation />
+      <Container style={{ marginTop: 50 }}>
+        <Container maxWidth="xs" style={{ position: "relative" }}>
+          <Paper
+            style={{
+              padding: 24,
+              backgroundColor: "#151A1F",
+              borderRadius: 6,
+            }}
+          >
+            <img
+              src="/images/gif.gif"
+              style={{ width: "100%", borderRadius: "4px" }}
+              alt=""
+            />
+            {!wallet.connected ? (
+              <ConnectButton>Connect Wallet</ConnectButton>
+            ) : (
+              <>
+                <Header candyMachine={candyMachine} />
+                <MintContainer>
+                  {candyMachine?.state.isActive &&
+                  candyMachine?.state.gatekeeper &&
+                  wallet.publicKey &&
+                  wallet.signTransaction ? (
+                    <GatewayProvider
+                      wallet={{
+                        publicKey:
+                          wallet.publicKey ||
+                          new PublicKey(CANDY_MACHINE_PROGRAM),
+                        //@ts-ignore
+                        signTransaction: wallet.signTransaction,
+                      }}
+                      gatekeeperNetwork={
+                        candyMachine?.state?.gatekeeper?.gatekeeperNetwork
+                      }
+                      clusterUrl={rpcUrl}
+                      options={{ autoShowModal: false }}
+                    >
+                      <MintButton
+                        candyMachine={candyMachine}
+                        isMinting={isUserMinting}
+                        onMint={onMint}
+                      />
+                    </GatewayProvider>
+                  ) : (
                     <MintButton
                       candyMachine={candyMachine}
                       isMinting={isUserMinting}
                       onMint={onMint}
                     />
-                  </GatewayProvider>
-                ) : (
-                  <MintButton
-                    candyMachine={candyMachine}
-                    isMinting={isUserMinting}
-                    onMint={onMint}
-                  />
-                )}
-              </MintContainer>
-            </>
-          )}
-          {process.env.REACT_APP_CROSSMINT_ID && (
-            <CrossmintPayButton
+                  )}
+                </MintContainer>
+              </>
+            )}
+            {process.env.REACT_APP_CROSSMINT_ID && (
+              <CrossmintPayButton
                 style={{ margin: "0 auto", width: "100%" }}
                 clientId={process.env.REACT_APP_CROSSMINT_ID}
-                environment={process.env.REACT_APP_SOLANA_NETWORK === "devnet" && process.env.REACT_APP_SOLANA_RPC_HOST === "https://api.devnet.solana.com" ? "staging" : ""}
-            />
-          )}
-        </Paper>
-      </Container>
+                environment={
+                  process.env.REACT_APP_SOLANA_NETWORK === "devnet" &&
+                  process.env.REACT_APP_SOLANA_RPC_HOST ===
+                    "https://api.devnet.solana.com"
+                    ? "staging"
+                    : ""
+                }
+              />
+            )}
+          </Paper>
+        </Container>
 
-      <Snackbar
-        open={alertState.open}
-        autoHideDuration={6000}
-        onClose={() => setAlertState({ ...alertState, open: false })}
-      >
-        <Alert
+        <Snackbar
+          open={alertState.open}
+          autoHideDuration={6000}
           onClose={() => setAlertState({ ...alertState, open: false })}
-          severity={alertState.severity}
         >
-          {alertState.message}
-        </Alert>
-      </Snackbar>
-    </Container>
-   </>
+          <Alert
+            onClose={() => setAlertState({ ...alertState, open: false })}
+            severity={alertState.severity}
+          >
+            {alertState.message}
+          </Alert>
+        </Snackbar>
+      </Container>
+    </>
   );
 };
 
